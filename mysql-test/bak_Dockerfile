@@ -1,0 +1,21 @@
+FROM ubuntu:22.04
+
+RUN apt-get update
+RUN apt-get install software-properties-common -y 
+RUN apt-get install wget gnupg telnet inetutils-ping -y
+
+#To install lsb_release for mysql as its required
+RUN add-apt-repository main && add-apt-repository universe && apt update && rm -rf /etc/apt/apt.conf.d/20snapd.conf && apt install lsb-release
+RUN export DEBIAN_FRONTEND=noninteractive
+
+RUN wget 'https://dev.mysql.com/get/mysql-apt-config_0.8.12-1_all.deb' && dpkg -i mysql-apt-config_0.8.12-1_all.deb
+
+RUN apt install mysql-server -y
+
+RUN systemctl start mysql
+#RUN mysql -u root -password -e "use mysql; UPDATE user SET authentication_string=PASSWORD('password') WHERE User='root'; flush privileges;"
+#RUN apt-get update && apt-get install -y wget && apt-get install mysql-server -y
+#RUN systemctl enable mysql && systemctl start mysql
+
+
+
